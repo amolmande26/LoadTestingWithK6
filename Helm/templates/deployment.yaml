@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.k6s.app }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.k6s.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.k6s.app }}
+    spec:
+      serviceAccountName: {{ .Values.k6s.serviceAccount }}
+      containers:
+      - name: {{ .Values.k6s.app }}
+        image: {{ .Values.k6s.image }}
+        imagePullPolicy: Always
+        env:
+          - name: JAVA_OPTS
+            value: -Xms256m -Xmx512m -server -XX:MaxHeapFreeRatio=40 -XX:MinHeapFreeRatio=30
+        ports:
+          - containerPort: 8080

@@ -1,0 +1,6 @@
+isDeploymentRequired: true
+k8s:
+  app: k6-load-testing-app
+  namespace: dev
+  serviceAccount: k6s-load-testing-sa
+  image: image
